@@ -1,0 +1,3 @@
+[submodule "NVIDIA-vBIOS-VFIO-Patcher"]
+	path = NVIDIA-vBIOS-VFIO-Patcher
+	url = https://github.com/Matoking/NVIDIA-vBIOS-VFIO-Patcher
