@@ -34,7 +34,4 @@ virsh nodedev-detach pci_0000_09_00_1
 virsh nodedev-detach pci_0000_05_00_0
 
 # Detach USB controllers
-virsh nodedev-detach pci_0000_0c_00_0
-virsh nodedev-detach pci_0000_0d_00_0
-virsh nodedev-detach pci_0000_0e_00_0
-virsh nodedev-detach pci_0000_0f_00_0
+virsh nodedev-detach pci_0000_11_00_3
