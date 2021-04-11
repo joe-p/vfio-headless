@@ -9,29 +9,15 @@ set -x
 # 12GB, assuming 2M hugepages
 echo 6144 > /proc/sys/vm/nr_hugepages
 
-# Unbind VTconsoles
-echo 0 > /sys/class/vtconsole/vtcon0/bind
-echo 0 > /sys/class/vtconsole/vtcon1/bind
-
-# Disable framebuffer with efifb=off kernel paramter or use the following command:
-# echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
-
-# Avoid race condition
-sleep 2
-
-# remove modules that the GPU is bound to
-modprobe -r nouveau
-modprobe -r nvidiafb 
-
 # The following use of nodedev-detach on pci devices is only needed if you're never using these devices on the host
 # If you plan on switching the devices between the host and guest, use the managed attribute in libvirt XML instead
 
 # Detach GPU (and audio function)
-virsh nodedev-detach pci_0000_09_00_0
-virsh nodedev-detach pci_0000_09_00_1
+virsh nodedev-detach pci_0000_0a_00_0
+virsh nodedev-detach pci_0000_0a_00_1
 
 # Detach NIC
 virsh nodedev-detach pci_0000_05_00_0
 
-# Detach USB controllers
-virsh nodedev-detach pci_0000_11_00_3
+# Detach USB controller
+virsh nodedev-detach pci_0000_0c_00_3
