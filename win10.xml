@@ -55,6 +55,7 @@
   <cpu mode='host-passthrough' check='none'>
     <topology sockets='1' cores='6' threads='2'/>
     <feature policy='require' name='topoext'/>
+    <feature policy='disable' name='hypervisor'/>
   </cpu>
   <clock offset='localtime'>
     <timer name='rtc' tickpolicy='catchup'/>
@@ -203,8 +204,4 @@
       <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
     </memballoon>
   </devices>
-  <qemu:commandline>
-    <qemu:arg value='-cpu'/>
-    <qemu:arg value='host,topoext=on,hv-time,hv-relaxed,hv-vapic,hv-spinlocks=0x1fff,hv-vpindex,hv-synic,hv-stimer,hv-reset,hv-vendor-id=123456789ab,hv-frequencies,kvm=off,-amd-stibp'/>
-  </qemu:commandline>
 </domain>
