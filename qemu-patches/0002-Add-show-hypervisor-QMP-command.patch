@@ -1,0 +1,86 @@
+From f078d8bff2622472be98851fd8b6a9a394da01b1 Mon Sep 17 00:00:00 2001
+From: Joe Polny <joepolny@gmail.com>
+Date: Fri, 26 Nov 2021 14:49:04 -0500
+Subject: [PATCH] Add 'show-hypervisor' QMP command
+
+---
+ hw/core/machine-qmp-cmds.c  | 21 ++++++++++++++++++---
+ hw/core/toggle_hypervisor.h |  1 +
+ qapi/machine.json           |  9 +++++++++
+ 3 files changed, 28 insertions(+), 3 deletions(-)
+ create mode 100644 hw/core/toggle_hypervisor.h
+
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 4088a05b37..6f96090330 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -21,8 +21,9 @@
+ #include "sysemu/sysemu.h"
+ #include "sysemu/cpus.h"
+ #include <linux/kvm.h>
++#include "toggle_hypervisor.h"
+ 
+-void qmp_hide_hypervisor(Error **errp)
++void toggle_hypervisor(bool hypervisor_visibility, Error **errp)
+ {
+     int32_t r;
+     CPUState *cpu;
+@@ -42,8 +43,12 @@ void qmp_hide_hypervisor(Error **errp)
+             struct kvm_cpuid_entry2 *entry = &cpuid_data->entries[i];
+ 
+             if (entry->function == 1) {
+-                /* eax is 1, unset hypervisor bit */
+-                entry->ecx &= ~CPUID_EXT_HYPERVISOR;
++                if (hypervisor_visibility) {
++                    entry->ecx |= CPUID_EXT_HYPERVISOR;
++                }
++                else {
++                    entry->ecx &= ~CPUID_EXT_HYPERVISOR;
++                }
+                 break;
+             }
+         }
+@@ -58,6 +63,16 @@ void qmp_hide_hypervisor(Error **errp)
+     resume_all_vcpus();
+ }
+ 
++void qmp_hide_hypervisor(Error **errp)
++{
++    toggle_hypervisor(0, errp);
++}
++
++void qmp_show_hypervisor(Error **errp)
++{
++    toggle_hypervisor(1, errp);
++}
++
+ CpuInfoList *qmp_query_cpus(Error **errp)
+ {
+     MachineState *ms = MACHINE(qdev_get_machine());
+diff --git a/hw/core/toggle_hypervisor.h b/hw/core/toggle_hypervisor.h
+new file mode 100644
+index 0000000000..c6f2f31d20
+--- /dev/null
++++ b/hw/core/toggle_hypervisor.h
+@@ -0,0 +1 @@
++void toggle_hypervisor(bool hypervisor_visibility, Error **errp);
+diff --git a/qapi/machine.json b/qapi/machine.json
+index f6f3800676..4c6493434e 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -762,3 +762,12 @@
+ {
+     'command': 'hide-hypervisor'
+ }
++
++##
++# @show-hypervisor:
++#
++# Shows the 'hypervisor' cpuid flag on all vCPUs at runtime.
++##
++{
++    'command': 'show-hypervisor'
++}
+-- 
+2.25.1
+
