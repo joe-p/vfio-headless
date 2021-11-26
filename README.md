@@ -7,7 +7,21 @@ Motherboard: Gigabyte X570 AORUS PRO WIFI
 CPU: AMD Ryzen 9 3900X
 Memory: 16GB Crucial Ballistix Sport LT 3200 MHz DDR4 (x2)
 
-# Notes
+# QEMU Patches
+Under `qemu-patches` there are two patches. One from PiMaker and one from myself. The first one, from PiMaker, will add a `hide-hypervisor` QMP command that hides the hypervisor CPUID flag. The second one adds a `show-hypervisor` QMP command that shows the hypervisor CPUID flag. This is useful for games that only work when hypervisor is shown such as Forza Horizon 5.
+
+To apply these patches and build qemu
+```
+git clone https://github.com/qemu/qemu
+cd qemu
+git checkout stable-4.2 # this should also work with 5.0
+git apply [this repo dir]/qemu-patches/*.patch
+./configure --target-list=x86_64-softmmu --with-pkgversion=toggle-hypervisor #pkgversion can be whatever you want
+make
+sudo make install # installs to /usr/local/bin/qemu-system-x86_64
+```
+
+# System Configuration Changes
 `vm.nr_hugepages = 6144` in `/etc/sysctl.conf` 
 
 # IOMMU Groupings:
