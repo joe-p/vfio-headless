@@ -43,12 +43,8 @@
       <synic state='on'/>
       <stimer state='on'/>
       <reset state='on'/>
-      <vendor_id state='on' value='123456789ab'/>
       <frequencies state='on'/>
     </hyperv>
-    <kvm>
-      <hidden state='on'/>
-    </kvm>
     <vmport state='off'/>
     <ioapic driver='kvm'/>
   </features>
