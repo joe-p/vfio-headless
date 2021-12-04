@@ -87,8 +87,8 @@ IOMMU Group 38 10:00.0 SATA controller [0106]: Advanced Micro Devices, Inc. [AMD
 `IOMMU Group 30 0b:00.0 VGA compatible controller [0300]: NVIDIA Corporation GP102 [GeForce GTX 1080 Ti] [10de:1b06] (rev a1)`
 `IOMMU Group 30 0b:00.1 Audio device [0403]: NVIDIA Corporation GP102 HDMI Audio Controller [10de:10ef] (rev a1)`
 
-## Guest Network
-`IOMMU Group 29 07:00.0 Ethernet controller [0200]: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller [10ec:8161] (rev 15)`
+## Guest Network (WiFi)
+`IOMMU Group 27 05:00.0 Network controller [0280]: Intel Corporation Wi-Fi 6 AX200 [8086:2723] (rev 1a)`
 
 ## Sata Card
 `IOMMU Group 26 04:00.0 SATA controller [0106]: ASMedia Technology Inc. ASM1062 Serial ATA Controller [1b21:0612] (rev 02)`
